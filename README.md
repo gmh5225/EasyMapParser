@@ -1,1 +1,1 @@
-# EasyMapPaser
+# EasyMapParser
