@@ -1,8 +1,11 @@
 # Reference: https://build-cpp.github.io/cmkr/cmake-toml
 [project]
 name = "EasyMapParser"
-description = "EasyMapParser"
+description = "Easy Map Parser"
 
-[target.EasyMapParser]
-type = "executable"
-sources = ["src/main.cpp"]
+[target.EasyMapParserLib]
+type = "library"
+headers = ["include/**.h"]
+sources = ["src/**.cpp", "src/**.h"]
+include-directories = ["include"]
+
