@@ -54,6 +54,10 @@ endif()
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${EasyMapParserLib_SOURCES})
 
+target_compile_features(EasyMapParserLib PUBLIC
+	cxx_std_20
+)
+
 target_include_directories(EasyMapParserLib PUBLIC
 	include
 )
