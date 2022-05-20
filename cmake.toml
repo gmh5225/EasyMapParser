@@ -2,6 +2,9 @@
 [project]
 name = "EasyMapParser"
 description = "Easy Map Parser"
+include-before = [
+	"configurations.cmake"
+]
 
 [target.EasyMapParserLib]
 type = "library"

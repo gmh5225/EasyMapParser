@@ -27,6 +27,8 @@ if(CMKR_ROOT_PROJECT)
 	configure_file(cmake.toml cmake.toml COPYONLY)
 endif()
 
+include(configurations.cmake)
+
 project(EasyMapParser
 	DESCRIPTION
 		"Easy Map Parser"
