@@ -12,6 +12,7 @@ namespace EasyMapParserLib {
 MapParser::MapParser()
 {
     mSymbols.clear();
+    mImageBase = 0;
 }
 
 const std::vector<Symbol> &
@@ -20,9 +21,28 @@ MapParser::GetSymbols() const
     return mSymbols;
 }
 
+unsigned long long
+MapParser::GetImageBase()
+{
+    return mImageBase;
+}
+
 bool
 MapParser::Parse(const char *MapFilePath)
 {
+    mSymbols.clear();
+    mImageBase = 0;
+
+    auto ParseImageBase = [&](std::string &Line) {
+        auto Idx = Line.find("Preferred load address is ");
+        if (Idx != std::string::npos)
+        {
+            auto StartIdx = Idx + strlen("Preferred load address is ");
+            auto ImageBaseStr = Line.substr(StartIdx);
+            mImageBase = std::strtoull(ImageBaseStr.c_str(), nullptr, 16);
+        }
+    };
+
     auto ParseSymbol = [&](std::string &Line) {
         std::regex Reg(
             R"#(\s(\d+)\:([a-fA-F0-9]+)\s+(\S+)\s+([a-fA-F0-9]+)\s+(.+))#", std::regex_constants::ECMAScript);
@@ -61,6 +81,13 @@ MapParser::Parse(const char *MapFilePath)
     while (std::getline(IfStream, Line))
     {
         // read line
+
+        if (mImageBase == 0)
+        {
+            ParseImageBase(Line);
+            continue;
+        }
+
         ParseSymbol(Line);
     }
 

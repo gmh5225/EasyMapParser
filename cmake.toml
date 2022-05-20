@@ -6,6 +6,8 @@ include-before = [
 	"configurations.cmake"
 ]
 
+[subdir.test]
+
 [target.EasyMapParserLib]
 type = "library"
 headers = ["include/**.h"]

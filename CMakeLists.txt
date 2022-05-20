@@ -34,6 +34,16 @@ project(EasyMapParser
 		"Easy Map Parser"
 )
 
+# test
+set(CMKR_CMAKE_FOLDER ${CMAKE_FOLDER})
+if(CMAKE_FOLDER)
+	set(CMAKE_FOLDER "${CMAKE_FOLDER}/test")
+else()
+	set(CMAKE_FOLDER test)
+endif()
+add_subdirectory(test)
+set(CMAKE_FOLDER ${CMKR_CMAKE_FOLDER})
+
 # Target EasyMapParserLib
 set(CMKR_TARGET EasyMapParserLib)
 set(EasyMapParserLib_SOURCES "")

@@ -23,8 +23,10 @@ public:
 public:
     bool Parse(const char *MapFilePath);
     const std::vector<Symbol> &GetSymbols() const;
+    unsigned long long GetImageBase();
 
 protected:
+    unsigned long long mImageBase;
     std::vector<Symbol> mSymbols;
 };
 
