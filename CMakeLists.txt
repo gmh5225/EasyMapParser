@@ -27,36 +27,36 @@ if(CMKR_ROOT_PROJECT)
 	configure_file(cmake.toml cmake.toml COPYONLY)
 endif()
 
-project(cmkr_for_beginners
+project(EasyMapParser
 	DESCRIPTION
-		"A minimal cmkr project."
+		"Easy Map Parser"
 )
 
-# Target hello_world
-set(CMKR_TARGET hello_world)
-set(hello_world_SOURCES "")
+# Target EasyMapParserLib
+set(CMKR_TARGET EasyMapParserLib)
+set(EasyMapParserLib_SOURCES "")
 
-list(APPEND hello_world_SOURCES
-	"src/main.cpp"
+list(APPEND EasyMapParserLib_SOURCES
+	"src/EasyMapParserLib.cpp"
+	"include/EasyMapParserLib.h"
 )
 
-list(APPEND hello_world_SOURCES
+list(APPEND EasyMapParserLib_SOURCES
 	cmake.toml
 )
 
-set(CMKR_SOURCES ${hello_world_SOURCES})
-add_executable(hello_world)
+set(CMKR_SOURCES ${EasyMapParserLib_SOURCES})
+add_library(EasyMapParserLib)
 
-if(hello_world_SOURCES)
-	target_sources(hello_world PRIVATE ${hello_world_SOURCES})
+if(EasyMapParserLib_SOURCES)
+	target_sources(EasyMapParserLib PRIVATE ${EasyMapParserLib_SOURCES})
 endif()
 
-get_directory_property(CMKR_VS_STARTUP_PROJECT DIRECTORY ${PROJECT_SOURCE_DIR} DEFINITION VS_STARTUP_PROJECT)
-if(NOT CMKR_VS_STARTUP_PROJECT)
-	set_property(DIRECTORY ${PROJECT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT hello_world)
-endif()
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${EasyMapParserLib_SOURCES})
 
-source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${hello_world_SOURCES})
+target_include_directories(EasyMapParserLib PUBLIC
+	include
+)
 
 unset(CMKR_TARGET)
 unset(CMKR_SOURCES)
