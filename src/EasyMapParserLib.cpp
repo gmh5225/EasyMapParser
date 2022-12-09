@@ -75,11 +75,11 @@ MapParser::Parse(const char *MapFilePath)
                     Sym.IsFunction = true;
 
                     // Fix LibObjName
-                    auto tempName = Sym.LibObjName;
-                    auto lastSpaceIdx = tempName.rfind(" ");
-                    if (lastSpaceIdx != std::string::npos)
+                    auto TempName = Sym.LibObjName;
+                    auto LastSpaceIdx = TempName.rfind(" ");
+                    if (LastSpaceIdx != std::string::npos)
                     {
-                        Sym.LibObjName = Sym.LibObjName.substr(lastSpaceIdx + 1);
+                        Sym.LibObjName = Sym.LibObjName.substr(LastSpaceIdx + 1);
                     }
                 }
 
