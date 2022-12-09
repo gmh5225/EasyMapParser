@@ -10,6 +10,7 @@ struct Symbol
     unsigned int SectionIndex;
     unsigned int SectionOffset;
     unsigned long long Address;
+    bool IsFunction;
     std::string SymbolName;
     std::string LibObjName;
 };

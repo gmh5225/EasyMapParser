@@ -59,10 +59,28 @@ MapParser::Parse(const char *MapFilePath)
                     continue;
                 }
 
+                if (Sym.Address < 0x1000)
+                {
+                    continue;
+                }
+
                 Sym.SectionIndex = std::atoi(Match[1].str().c_str());
                 Sym.SectionOffset = std::strtoul(Match[2].str().c_str(), nullptr, 16);
                 Sym.SymbolName = Match[3].str();
                 Sym.LibObjName = Match[5].str();
+
+                if (Line.find(" f ") != std::string::npos)
+                {
+                    Sym.IsFunction = true;
+
+                    // Fix LibObjName
+                    auto tempName = Sym.LibObjName;
+                    auto lastSpaceIdx = tempName.rfind(" ");
+                    if (lastSpaceIdx != std::string::npos)
+                    {
+                        Sym.LibObjName = Sym.LibObjName.substr(lastSpaceIdx + 1);
+                    }
+                }
 
                 mSymbols.emplace_back(Sym);
             }

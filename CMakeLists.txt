@@ -7,12 +7,11 @@ if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
 	message(FATAL_ERROR "In-tree builds are not supported. Run CMake from a separate directory: cmake -B build")
 endif()
 
-# Regenerate CMakeLists.txt automatically in the root project
 set(CMKR_ROOT_PROJECT OFF)
 if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
 	set(CMKR_ROOT_PROJECT ON)
 
-	# Bootstrap cmkr
+	# Bootstrap cmkr and automatically regenerate CMakeLists.txt
 	include(cmkr.cmake OPTIONAL RESULT_VARIABLE CMKR_INCLUDE_RESULT)
 	if(CMKR_INCLUDE_RESULT)
 		cmkr()
@@ -20,10 +19,8 @@ if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
 
 	# Enable folder support
 	set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-endif()
 
-# Create a configure-time dependency on cmake.toml to improve IDE support
-if(CMKR_ROOT_PROJECT)
+	# Create a configure-time dependency on cmake.toml to improve IDE support
 	configure_file(cmake.toml cmake.toml COPYONLY)
 endif()
 
@@ -34,7 +31,7 @@ project(EasyMapParser
 		"Easy Map Parser"
 )
 
-# test
+# Subdirectory: test
 set(CMKR_CMAKE_FOLDER ${CMAKE_FOLDER})
 if(CMAKE_FOLDER)
 	set(CMAKE_FOLDER "${CMAKE_FOLDER}/test")
@@ -44,26 +41,16 @@ endif()
 add_subdirectory(test)
 set(CMAKE_FOLDER ${CMKR_CMAKE_FOLDER})
 
-# Target EasyMapParserLib
-set(CMKR_TARGET EasyMapParserLib)
-set(EasyMapParserLib_SOURCES "")
-
-list(APPEND EasyMapParserLib_SOURCES
+# Target: EasyMapParserLib
+set(EasyMapParserLib_SOURCES
 	"src/EasyMapParserLib.cpp"
 	"include/EasyMapParserLib.h"
-)
-
-list(APPEND EasyMapParserLib_SOURCES
 	cmake.toml
 )
 
-set(CMKR_SOURCES ${EasyMapParserLib_SOURCES})
 add_library(EasyMapParserLib)
 
-if(EasyMapParserLib_SOURCES)
-	target_sources(EasyMapParserLib PRIVATE ${EasyMapParserLib_SOURCES})
-endif()
-
+target_sources(EasyMapParserLib PRIVATE ${EasyMapParserLib_SOURCES})
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${EasyMapParserLib_SOURCES})
 
 target_compile_features(EasyMapParserLib PUBLIC
@@ -73,7 +60,4 @@ target_compile_features(EasyMapParserLib PUBLIC
 target_include_directories(EasyMapParserLib PUBLIC
 	include
 )
-
-unset(CMKR_TARGET)
-unset(CMKR_SOURCES)
 
