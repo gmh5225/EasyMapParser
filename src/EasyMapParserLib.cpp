@@ -46,7 +46,7 @@ MapParser::Parse(const char *MapFilePath)
     auto ParseSymbol = [&](std::string &Line) {
         // https://github.com/mike1k/perses/blob/master/src/mapfileparser.cpp#LL25
         std::regex Reg(
-            R"#(\s(\d+)\:([a-fA-F0-9]+)\s+(\S+)\s+([a-fA-F0-9]+)\s+(.+))#", std::regex_constants::ECMAScript);
+            R"#(\s(\d+):([a-fA-F0-9]+)\s+(\S+)\s+([a-fA-F0-9]+)\s+(.+))#", std::regex_constants::ECMAScript);
         if (std::regex_match(Line, Reg))
         {
             std::smatch Match;
