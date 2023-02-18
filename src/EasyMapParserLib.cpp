@@ -45,8 +45,7 @@ MapParser::Parse(const char *MapFilePath)
 
     auto ParseSymbol = [&](std::string &Line) {
         // https://github.com/mike1k/perses/blob/master/src/mapfileparser.cpp#LL25
-        std::regex Reg(
-            R"#(\s(\d+):([a-fA-F0-9]+)\s+(\S+)\s+([a-fA-F0-9]+)\s+(.+))#", std::regex_constants::ECMAScript);
+        std::regex Reg(R"#(\s(\d+):([a-fA-F0-9]+)\s+(\S+)\s+([a-fA-F0-9]+)\s+(.+))#", std::regex_constants::ECMAScript);
         if (std::regex_match(Line, Reg))
         {
             std::smatch Match;
@@ -88,13 +87,13 @@ MapParser::Parse(const char *MapFilePath)
         }
     };
 
-    if ((access(MapFilePath, 0) != 0))
+    std::ifstream IfStream(MapFilePath);
+    if (!IfStream)
     {
         // file does not exist
         return false;
     }
 
-    std::ifstream IfStream(MapFilePath);
     std::string Line = "";
 
     while (std::getline(IfStream, Line))
